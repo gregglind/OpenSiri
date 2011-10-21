@@ -30,7 +30,7 @@ You can Help us!
 
 * http://ask.opensiri.com and describe your experiences with Siri.
 * verify questions and responses at http://ask.opensiri.com/verify
-* code checkouts at https://github.com/gregglind/OpenSiri
+* code checkouts at https://github.com/gregglind/OpenSiri/
 
 Projects
 ----------
@@ -61,10 +61,22 @@ Diverisity
 * "We welcome people of any gender identity or expression, race, ethnicity, size, nationality, sexual orientation, ability level, religion, culture, subculture, and political opinion."  (http://www.dreamwidth.org/legal/diversity)
 
 
+Development Workflow
+-----------------------
+
+#. **no dev in master, please**
+#. file an issue report, if appropriate
+#. use git topic branches, with your issue
+#. make a pull request
 
 
 Technologies
 -------------------
+
+* html5boilerplate
+* underscore, jquery, and friends
+* appengine / python
+
 
 Contributors
 --------------
