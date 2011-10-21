@@ -67,11 +67,11 @@ class MainHandler(webapp.RequestHandler):
 
 class ViewAll(webapp.RequestHandler):
     def get(self):
-        greetings = db.GqlQuery("SELECT * "
+        siris = db.GqlQuery("SELECT * "
                             "FROM SiriReport "
                             "ORDER BY date DESC LIMIT 1000",)
         
-        for g in greetings:
+        for g in siris:
             self.response.out.write('<p>%s</p>' % g)
 
 class UserHandler(webapp.RequestHandler):
