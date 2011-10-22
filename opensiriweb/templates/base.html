@@ -24,10 +24,14 @@
   <link rel="shortcut icon" href="/static/favicon.ico">
   <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 
+  <!-- jqm -->
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0rc2/jquery.mobile-1.0rc2.min.css" />
+
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/static/css/style.css">
   <!-- end CSS-->
+
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
@@ -39,31 +43,37 @@
 
 <body>
 
-  <div id="container">
-    <header>
-        {% block header %}{% endblock %}
-    </header>
-    
-    <div id="main" role="main">
+
+<div id='container' data-role="page"> 
+	<div data-role="header">
+         {% block header %}{% endblock %}
+    </div> 
+	<div data-role="content">
         {% block main %}{% endblock %}
-    </div>
-    
-    <footer>
+    </div> 
+	<div data-role="footer">
         {% block footer %}{% endblock %}
-    </footer>
-  </div> <!-- end of #container -->
+    </div> 
+</div> <!-- end of container -->
+
 
 
   <!-- JavaScript at the bottom for fast page loading -->
 
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="/static/js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/static/js/libs/jquery-1.6.4.min.js"><\/script>')</script>
 
+  <!-- jqm -->
+
+  <script src="http://code.jquery.com/mobile/1.0rc2/jquery.mobile-1.0rc2.min.js"></script>
+
+  <!-- I really should have a better system for this... -->
+  <script defer src="/static/js/libs/chosen.jquery.min.js "></script>
 
   <!-- scripts concatenated and minified via ant build script-->
-  <script defer src="js/plugins.js"></script>
-  <script defer src="js/script.js"></script>
+  <script defer src="/static/js/plugins.js"></script>
+  <script defer src="/static/js/script.js"></script>
   <!-- end scripts-->
 
 	
