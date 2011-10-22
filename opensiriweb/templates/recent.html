@@ -1,0 +1,12 @@
+{% extends "standard.html" %}
+
+{% block main %}
+<h1>Last 100 Items</h1>
+<ol data-role="listview">
+{% for r in recent %}
+    <li>{{r.date}} {{ r.author }} {{r.asked}} {{r.said }} {{r.action }}</li>
+{% endfor %}
+</ol>
+
+
+{% endblock %}

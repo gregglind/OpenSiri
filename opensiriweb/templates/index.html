@@ -1,30 +1,24 @@
-{% extends "base.html" %}
+{% extends "standard.html" %}
 
 {% block title %}Welcome!{% endblock %}
 
-{% block header %}
-opensiri
 
-{% endblock %}
 
 {% block main %}
 
-    <form method="GET" action=''>
-
-
-<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="c">
-    <h3>i asked</h3>
-	<label for="asked">i asked siri:</label>
-    <textarea name='asked' label='asked' placeholder="What can I help you with?"></textarea>
-</div>
+    <form method="POST" action=''>
+    <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="c">
+        <h3>i asked</h3>
+	    <label for="asked">i asked siri:</label>
+        <textarea name='asked' label='asked' placeholder="What can I help you with?"></textarea>
+    </div>
 
 <div data-role="collapsible-set" data-theme="b" data-content-theme="c">
-
 	<div data-role="collapsible" data-collapsed="false">
 
     	<h3>siri said</h3>
     <label for="got">siri said...</label>
-    <textarea label='got' name='got' placeholder=""></textarea>
+    <textarea label='said' name='said' placeholder=""></textarea>
     </div>
 
 	<div data-role="collapsible">
@@ -32,7 +26,7 @@ opensiri
     <fieldset data-role="controlgroup">
 	    <legend>Siri gave:</legend>
             {% for t in knownactions %}
-         	<input type="radio" name="radio-choice-1" id="radio-choice-{{t}}" value="choice-{{t}}" />
+         	<input type="radio" name="action" id="radio-choice-{{t}}" value="choice-{{t}}" />
          	<label for="radio-choice-{{t}}">{{t}}</label>
 
             {% endfor %}
@@ -53,18 +47,15 @@ opensiri
     </div>
 
 	
-</div>
-	
-
-<div data-role="list-divider" data-collapsed="false" data-theme="b" data-content-theme="c">
-{#<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="c">#}
-    <h3>siri got it right?</h3>
-    <label for="flip-a">Siri Got it Right?</label>
-    <select name="slider" id="flip-a" data-role="slider">
-	    <option value="off">No</option>
-	    <option value="on">Yes</option>
-    </select> 
-</div>
+    </div>
+    <div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="c">
+        <h3>siri did the right thing?</h3>
+        <label for="flip-a">siri did the right thing?</label>
+        <select name="correctaction" id="flip-a" data-role="slider">
+	        <option value="off">No</option>
+	        <option value="on">Yes</option>
+        </select> 
+    </div>
 
     <input style="display: block; margin-left: auto; margin-right: auto;" data-role="none" type="image" src="/static/img/siri-icon-trimmed-bw.png" />
     </form>
@@ -72,13 +63,4 @@ opensiri
 
 {% endblock %}
 
-{% block footer %}
-<div>
-<a href='last100'>last100</a>
-<a href='aboutsu'>aboutus</a>
-<a href='validate'>validate</a>
-<a href='http://github.com/gregglind/OpenSiri'>sourcecode</a>
-</div>
 
-
-{% endblock %}

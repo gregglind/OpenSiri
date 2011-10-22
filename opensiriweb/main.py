@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 import cgi
-
+import os
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
@@ -24,55 +24,54 @@ from google.appengine.api import users
 from google.appengine.ext.webapp import template
 
 
+## since I am clearly an idiot and can't figure this out...!
+TEMPLATE_DIRS = ['templates',]
 
-t = """
-<form method="POST" action=''>
-<textarea name='asked'>what did you ask Siri to do?</textarea>
-<br />
-<textarea name='got'>what was her response?</textarea>
-<input type='submit' />
-</form>
+def render(fname,template_values):
+    """ """
+    for D in TEMPLATE_DIRS:
+        path = os.path.join(os.path.dirname(__file__),D, fname)
+        return template.render(path,template_values)
 
 
-<p>other possible actions:  verfiy, view leaderboard, read discussion</p>
-"""
-
-class SiriReport(db.Model):
+class SiriInteraction(db.Model):
     """Models an individual Guestbook entry with an author, content, and date."""
     author = db.UserProperty()
     asked = db.StringProperty(multiline=True)
-    got = db.StringProperty(multiline=True)
+    said = db.StringProperty(multiline=True)
+    action = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add=True)
-    
+    tags = db.StringListProperty()
+    verified = db.BooleanProperty(default=False)
+    correctaction =  db.BooleanProperty(default=False)
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
-        self.response.out.write(t)
+        d = dict(knownactions=sorted(['map','alarm','note','phone','ipod','music',
+            'messages','calendar','reminders','email','weather','stocks',
+            'clock','timer','address-book', 'web', 'wolfram-alpha' ]))
+        self.response.out.write(render('index.html',d))
 
     def post(self):
-        
         asked = self.request.get('asked')
-        got = self.request.get('got')
-        siri = SiriReport(asked=asked,got=got)
+        said = self.request.get('said')
+        action = self.request.get('action')
+        siri = SiriInteraction(asked=asked,said=said,action=action)
         
         if users.get_current_user():
             siri.author = users.get_current_user()
 
         siri.put()
-        self.response.out.write('<html><body>You wrote:<pre>')
-        self.response.out.write(cgi.escape(asked))
-        self.response.out.write(cgi.escape(got))
-        self.response.out.write('</pre></body></html>')
+        self.redirect('/recent')
 
 
-class ViewAll(webapp.RequestHandler):
+class RecentHandler(webapp.RequestHandler):
     def get(self):
         siris = db.GqlQuery("SELECT * "
-                            "FROM SiriReport "
-                            "ORDER BY date DESC LIMIT 1000",)
+                            "FROM SiriInteraction "
+                            "ORDER BY date DESC LIMIT 100",)
         
-        for g in siris:
-            self.response.out.write('<p>%s</p>' % g)
+        self.response.out.write(render('recent.html',dict(recent=siris)))
 
 class UserHandler(webapp.RequestHandler):
     def get(self):
@@ -85,10 +84,17 @@ class UserHandler(webapp.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
 
+# i am sure this bs is already done too!  REINVENTED WHEEL...
+class T(webapp.RequestHandler):
+    def get(self):
+        d = dict(knownactions=['map','alarm','note',])
+        self.response.out.write(render('index.html',d))
+
+
 def main():
     application = webapp.WSGIApplication([('/', MainHandler),
                                           ('/user',UserHandler),
-                                          ('/all',ViewAll),
+                                          ('/recent',RecentHandler),
                                         ],
                                          debug=True)
     util.run_wsgi_app(application)
